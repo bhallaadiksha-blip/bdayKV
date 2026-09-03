@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Birthday Surprise ♡</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#fff8f7;color:#4d3535;overflow-x:hidden;
+}
+.page{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:40px 20px;position:relative;overflow:hidden;
+}
+.page:nth-child(even){background:#fff1ef}
+.content{width:min(900px,100%);text-align:center;position:relative;z-index:2}
+.kicker{font-size:14px;letter-spacing:2px;text-transform:uppercase;opacity:.65;margin-bottom:18px}
+h1,h2{font-family:'Playfair Display',serif;font-weight:500}
+h1{font-size:clamp(44px,9vw,90px);line-height:1.05}
+h2{font-size:clamp(34px,6vw,58px);margin-bottom:18px}
+p{font-size:18px;line-height:1.8;max-width:650px;margin:0 auto}
+.script{font-family:'Playfair Display',serif;font-style:italic}
+.btn{
+  border:0;border-radius:999px;padding:14px 25px;margin-top:30px;
+  background:#e88c91;color:white;font-size:15px;font-weight:700;cursor:pointer;
+  box-shadow:0 10px 25px #e88c9140;transition:.25s;
+}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.small{font-size:13px;opacity:.6;margin-top:12px}
+.hidden{display:none!important}
+
+/* floating decorations */
+.heart,.sparkle,.petal{position:absolute;pointer-events:none;animation:float 5s ease-in-out infinite}
+.heart{font-size:25px}.sparkle{font-size:20px}.petal{font-size:22px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-22px) rotate(8deg)}}
+
+/* bouquet */
+.bouquet{font-size:110px;filter:drop-shadow(0 14px 18px #a95d4430);animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateY(-7px) scale(1.03)}}
+
+/* reveal */
+.type{border-right:2px solid #e88c91;white-space:nowrap;overflow:hidden;display:inline-block;max-width:100%}
+.fade{animation:fadeUp .9s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* balloons */
+.balloons{height:250px;position:relative;max-width:600px;margin:10px auto}
+.balloon{
+ position:absolute;width:78px;height:96px;border-radius:50% 50% 45% 45%;
+ display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;
+ transition:.25s;box-shadow:inset -10px -12px 18px #00000012;
+}
+.balloon:after{content:'';position:absolute;bottom:-55px;width:1px;height:60px;background:#8e7777}
+.balloon:hover{transform:translateY(-8px) rotate(3deg)}
+.b1{left:7%;top:65px}.b2{left:29%;top:10px}.b3{right:29%;top:30px}.b4{right:7%;top:75px}
+.pop{animation:pop .35s forwards}
+@keyframes pop{to{transform:scale(1.7);opacity:0}}
+
+/* photos */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.card{
+ background:white;padding:10px 10px 18px;border-radius:6px;
+ box-shadow:0 12px 30px #8d5a5a18;transform:rotate(-2deg);
+ transition:.3s;
+}
+.card:nth-child(2){transform:rotate(2deg);margin-top:22px}
+.card:nth-child(3){transform:rotate(-1deg)}
+.card:hover{transform:translateY(-10px) rotate(0)}
+.card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px}
+.card span{display:block;font-family:'Playfair Display',serif;font-style:italic;margin-top:10px}
+
+/* letter */
+.envelope-wrap{perspective:1000px;margin:30px auto;width:320px;cursor:pointer}
+.envelope{
+ height:210px;background:#eaa0a3;border-radius:10px;position:relative;
+ box-shadow:0 20px 40px #a95d4430;overflow:hidden;
+}
+.envelope:before{
+ content:'';position:absolute;inset:0;
+ clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
+ background:#f4b8ba;
+}
+.letter{
+ position:absolute;background:#fffdf9;width:270px;height:190px;left:25px;top:15px;
+ padding:25px;border-radius:4px;z-index:2;transition:transform .8s;
+ box-shadow:0 5px 15px #00000010;
+}
+.envelope.open .letter{transform:translateY(-150px)}
+.letter p{font-size:14px;line-height:1.6}
+.tap{margin-top:14px;font-size:13px;opacity:.7}
+
+/* final */
+.final h1{font-size:clamp(48px,10vw,100px)}
+.confetti{position:fixed;top:-20px;width:9px;height:15px;z-index:20;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.8}}
+.scroll{position:absolute;bottom:25px;font-size:12px;opacity:.5}
+
+
+/* iPhone / mobile-first improvements */
+html, body {
+  width: 100%;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+}
+body { touch-action: manipulation; }
+.page {
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding: max(28px, env(safe-area-inset-top)) 18px max(34px, env(safe-area-inset-bottom));
+}
+.content { width: min(100%, 680px); }
+button, .balloon, .envelope-wrap { -webkit-tap-highlight-color: transparent; }
+.btn {
+  min-height: 50px;
+  padding: 14px 24px;
+  font-size: 16px;
+  touch-action: manipulation;
+}
+.gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { min-width: 0; }
+.card img { display:block; }
+.scroll { bottom: max(18px, env(safe-area-inset-bottom)); }
+
+/* Make the letter readable on narrow iPhones */
+.letter p { font-size: 13px; }
+.envelope-wrap { max-width: 92vw; }
+
+/* Don't rely on hover on touchscreens */
+@media (hover:none) and (pointer:coarse) {
+  .card:hover, .balloon:hover, .btn:hover { transform: none; }
+}
+
+/* Small iPhones */
+@media (max-width: 390px) {
+  .page { padding-left: 15px; padding-right: 15px; }
+  .bouquet { font-size: 78px; }
+  h1 { font-size: clamp(39px, 13vw, 58px); }
+  h2 { font-size: clamp(31px, 10vw, 46px); }
+  p { font-size: 15px; line-height: 1.65; }
+  .gallery { gap: 10px; }
+  .card { padding: 7px 7px 12px; }
+  .card span { font-size: 14px; }
+  .balloons { transform: scale(.72); transform-origin: center top; margin-bottom:-35px; }
+  .envelope-wrap { width: 280px; }
+  .letter { width: 230px; left: 25px; padding: 20px; }
+  .letter p { font-size: 12px; }
+}
+
+
+/* excitement + candle */
+.choice-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:28px;position:relative;min-height:62px}
+.choice-btn{min-width:115px}
+.no-btn{position:relative}
+.candle-scene{margin:28px auto 10px;position:relative;width:220px;height:245px}
+.cake{position:absolute;left:35px;bottom:15px;width:150px;height:105px;border-radius:12px 12px 22px 22px;background:#f4b4b7;box-shadow:0 12px 0 #df8f95}
+.cake:before{content:'';position:absolute;left:0;right:0;top:35px;height:12px;background:#fff0ee}
+.cake:after{content:'♡  ♡  ♡';position:absolute;left:0;right:0;bottom:15px;color:#d77880;font-size:20px;letter-spacing:8px}
+.plate{position:absolute;left:15px;bottom:0;width:190px;height:18px;border-radius:50%;background:#ead6d2}
+.candle{position:absolute;left:103px;top:48px;width:18px;height:70px;border-radius:5px;background:#fff4dd;z-index:3}
+.flame{position:absolute;left:101px;top:20px;width:22px;height:34px;border-radius:50% 50% 45% 45%;background:#f3a34b;z-index:4;animation:flicker .16s infinite alternate;box-shadow:0 0 20px #f3a34b99}
+@keyframes flicker{to{transform:scale(1.12) rotate(2deg);opacity:.85}}
+.smoke{position:absolute;left:105px;top:10px;font-size:28px;opacity:0}
+.blown .flame{display:none}
+.blown .smoke{opacity:.6;animation:smoke 1.8s forwards}
+@keyframes smoke{to{transform:translateY(-50px) scale(1.5);opacity:0}}
+.mic-status{font-size:13px;opacity:.65;margin-top:8px;min-height:20px}
+
+/* mobile */
+@media(max-width:650px){
+ .gallery{grid-template-columns:1fr 1fr;gap:12px}
+ .balloons{transform:scale(.78);transform-origin:center top}
+ .envelope-wrap{width:290px;max-width:92vw}
+ .letter{width:240px;left:25px}
+ p{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<section class="page" id="start">
+  <span class="heart" style="left:10%;top:18%">♡</span>
+  <span class="sparkle" style="right:12%;top:25%">✦</span>
+  <span class="petal" style="left:18%;bottom:20%">🌸</span>
+  <span class="heart" style="right:20%;bottom:18%">♡</span>
+  <div class="content">
+    <div class="kicker">A tiny surprise made with love</div>
+    <div class="bouquet">💐</div>
+    <h1 class="fade">Your Birthday<br><span class="script">Rose Bouquet</span> 🌹</h1>
+    <p class="fade" style="margin-top:20px">Because a simple “Happy Birthday” just didn't feel enough.</p>
+    <button class="btn" onclick="begin()">Continue →</button>
+    <div class="small">Best experienced with sound ♫</div>
+  </div>
+  <div class="scroll">scroll ↓</div>
+</section>
+
+<section class="page hidden" id="wish">
+  <div class="content">
+    <div class="kicker">today is your day</div>
+    <h2 id="typed"></h2>
+    <p class="fade">Someone wonderful was born today. And honestly, the world got a little better because of it. ♡</p>
+    <button class="btn" onclick="go('excited')">I have something for you →</button>
+  </div>
+</section>
+
+<section class="page hidden" id="excited">
+  <span class="heart" style="left:12%;top:20%">♡</span>
+  <span class="sparkle" style="right:12%;top:30%">✦</span>
+  <div class="content">
+    <div class="kicker">be honest… 👀</div>
+    <h2>Are you excited? 🥹</h2>
+    <p>Because I may or may not have made a whole little surprise for you.</p>
+    <div class="choice-row" id="choiceRow">
+      <button class="btn choice-btn" onclick="excitedYes()">YES! ♡</button>
+      <button class="btn choice-btn no-btn" id="noBtn"
+        onmouseenter="moveNo()" ontouchstart="moveNo()">NO 😌</button>
+    </div>
+    <div id="choiceMsg" class="script" style="font-size:22px;min-height:38px;margin-top:12px"></div>
+  </div>
+</section>
+
+<section class="page hidden" id="balloons">
+  <div class="content">
+    <div class="kicker">little game</div>
+    <h2>Pop the balloons 🎈</h2>
+    <p>Each one has a tiny message hidden inside.</p>
+    <div class="balloons">
+      <div class="balloon b1" onclick="popBalloon(this,'You deserve to be celebrated. ♡')">🎈</div>
+      <div class="balloon b2" onclick="popBalloon(this,'Keep that beautiful smile forever. ✨')">🎈</div>
+      <div class="balloon b3" onclick="popBalloon(this,'May this year be ridiculously good to you. 🥹')">🎈</div>
+      <div class="balloon b4" onclick="popBalloon(this,'And yes… you are very loved. ❤️')">🎈</div>
+    </div>
+    <div id="balloonMsg" class="script" style="font-size:23px;min-height:35px"></div>
+    <button class="btn hidden" id="memoryBtn" onclick="go('candle')">Now, make a wish →</button>
+  </div>
+</section>
+
+<section class="page hidden" id="candle">
+  <div class="content">
+    <div class="kicker">make a wish ✨</div>
+    <h2>One little birthday ritual…</h2>
+    <p>Make a wish and <b>blow the candle</b> 🎂</p>
+
+    <div class="candle-scene" id="candleScene">
+      <div class="flame"></div>
+      <div class="smoke">☁️</div>
+      <div class="candle"></div>
+      <div class="cake"></div>
+      <div class="plate"></div>
+    </div>
+
+    <button class="btn" id="blowBtn" onclick="startBlow()">🎤 Blow the candle</button>
+    <div class="mic-status" id="micStatus">Tap the button, allow microphone access, then blow near your phone.</div>
+    <button class="btn hidden" id="tapBlowBtn" onclick="blowCandle()">Or tap to blow it out ✨</button>
+    <button class="btn hidden" id="afterCandleBtn" onclick="go('memories')">Yay! Continue →</button>
+  </div>
+</section>
+
+<section class="page hidden" id="memories">
+  <div class="content">
+    <div class="kicker">little pieces of us</div>
+    <h2>Some favourite memories 📸</h2>
+    <p>Add your 6 photos to the <b>photos</b> folder as photo1.jpeg through photo6.jpeg.</p>
+    <div class="gallery">
+      <div class="card"><img src="photos/photo1.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>That smile.</span></div>
+      <div class="card"><img src="photos/photo2.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>That moment.</span></div>
+      <div class="card"><img src="photos/photo3.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>One for the books.</span></div>
+      <div class="card"><img src="photos/photo4.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>And many more.</span></div>
+      <div class="card"><img src="photos/photo5.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>My favourite kind of chaos.</span></div>
+      <div class="card"><img src="photos/photo6.jpeg" onerror="this.style.opacity='0.25'; this.alt='Add your photo here'"><span>Here's to you. ♡</span></div>
+    </div>
+    <button class="btn" onclick="go('letter')">One last thing… 💌</button>
+  </div>
+</section>
+
+<section class="page hidden" id="letter">
+  <div class="content">
+    <div class="kicker">you have mail</div>
+    <h2>A little letter for you</h2>
+    <div class="envelope-wrap" onclick="openLetter()">
+      <div class="envelope" id="env">
+<div class="letter"> <div class="script" style="font-size:22px;margin-bottom:8px"> Dear Keshav, </div>
+
+<p> Celebrating 28 years of you today! Happy birthday, KV! ❤️ </p>
+
+<p style="margin-top:8px"> Funny how one random Hinge match turned into something I never expected. 😂 From not wanting to meet you to making some really beautiful memories — especially that trip — I’m genuinely glad our paths crossed. </p>
+
+<p style="margin-top:8px"> May Mahadev bless you with happiness, health, success, and everything your heart quietly wishes for. </p>
+
+<p style="margin-top:8px"> Best wishes,<br> <span class="script">Pya(r/s)i Adiksha ♡</span> </p> </div>  </p>
+</div>
+        </div>
+      </div>
+    </div>
+    <div class="tap">tap the envelope</div>
+    <button class="btn hidden" id="finalBtn" onclick="go('final')">There's one more surprise →</button>
+  </div>
+</section>
+
+<section class="page hidden final" id="final">
+  <div class="content">
+    <div class="kicker">and finally…</div>
+    <div style="font-size:85px">🎂</div>
+    <h1>Happy Birthday,<br><span class="script">Keshav ♡</span></h1>
+    <p style="margin-top:25px">May this chapter be your happiest one yet. May you laugh more, worry less, and always have reasons to believe that good things are coming.</p>
+    <p class="script" style="font-size:25px;margin-top:25px">You deserve beautiful things. Always.</p>
+    <button class="btn" onclick="location.reload()">Replay ↻</button>
+  </div>
+</section>
+
+<audio id="music" loop>
+  <source src="music/birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let popped=0;
+
+function begin(){
+  document.getElementById('music').play().catch(()=>{});
+  go('wish');
+  typeText("Happy Birthday, Keshav ♡");
+  confetti(35);
+}
+function go(id){
+  document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function typeText(text){
+  const el=document.getElementById('typed'); el.textContent='';
+  let i=0;
+  const t=setInterval(()=>{el.textContent+=text[i++];if(i>=text.length)clearInterval(t)},65);
+}
+function popBalloon(el,msg){
+  if(el.classList.contains('pop')) return;
+  el.classList.add('pop'); popped++;
+  document.getElementById('balloonMsg').textContent=msg;
+  if(popped===4){
+    document.getElementById('memoryBtn').classList.remove('hidden');
+    confetti(45);
+  }
+}
+function openLetter(){
+  const env=document.getElementById('env');
+  env.classList.toggle('open');
+  if(env.classList.contains('open')){
+    setTimeout(()=>document.getElementById('finalBtn').classList.remove('hidden'),700);
+  }
+}
+function confetti(n){
+  for(let i=0;i<n;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.animationDuration=(2.5+Math.random()*2.5)+'s';
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    c.textContent=['♥','✦','•','♡'][Math.floor(Math.random()*4)];
+    c.style.fontSize=(10+Math.random()*15)+'px';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),6000);
+  }
+}
+
+function excitedYes(){
+  document.getElementById('choiceMsg').textContent='I KNEW IT! 🥹🎀';
+  confetti(35);
+  setTimeout(()=>go('candle'),900);
+}
+function moveNo(){
+  const btn=document.getElementById('noBtn');
+  const row=document.getElementById('choiceRow');
+  const maxX=Math.max(0,row.clientWidth-btn.offsetWidth);
+  const maxY=45;
+  btn.style.position='absolute';
+  btn.style.left=(Math.random()*maxX)+'px';
+  btn.style.top=(Math.random()*maxY)+'px';
+}
+let audioContext, analyser, micStream, blowTimer, blowStarted=false;
+async function startBlow(){
+  const status=document.getElementById('micStatus');
+  const tap=document.getElementById('tapBlowBtn');
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    micStream=stream;
+    audioContext=new (window.AudioContext||window.webkitAudioContext)();
+    const source=audioContext.createMediaStreamSource(stream);
+    analyser=audioContext.createAnalyser();
+    analyser.fftSize=512;
+    source.connect(analyser);
+    status.textContent='Listening… blow gently toward the microphone 💨';
+    tap.classList.add('hidden');
+    blowStarted=true;
+    detectBlow();
+  }catch(e){
+    status.textContent='Microphone access was unavailable. No worries — use the tap option below. ♡';
+    tap.classList.remove('hidden');
+  }
+}
+function detectBlow(){
+  if(!analyser || !blowStarted)return;
+  const data=new Uint8Array(analyser.fftSize);
+  analyser.getByteTimeDomainData(data);
+  let sum=0;
+  for(let i=0;i<data.length;i++){const v=(data[i]-128)/128;sum+=v*v;}
+  const rms=Math.sqrt(sum/data.length);
+  if(rms>0.17){
+    blowCandle();
+    return;
+  }
+  blowTimer=requestAnimationFrame(detectBlow);
+}
+function blowCandle(){
+  if(document.getElementById('candleScene').classList.contains('blown'))return;
+  blowStarted=false;
+  if(blowTimer)cancelAnimationFrame(blowTimer);
+  if(micStream)micStream.getTracks().forEach(t=>t.stop());
+  document.getElementById('candleScene').classList.add('blown');
+  document.getElementById('micStatus').textContent='Wish made. Candle blown. ✨';
+  document.getElementById('blowBtn').classList.add('hidden');
+  document.getElementById('tapBlowBtn').classList.add('hidden');
+  document.getElementById('afterCandleBtn').classList.remove('hidden');
+  confetti(55);
+}
+
+</script>
+</body>
+</html>
